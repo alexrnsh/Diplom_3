@@ -19,25 +19,21 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public boolean isLoginButtonHomePageDisplayed() {
-        return driver.findElement(loginButtonHomePage).isDisplayed();
-    }
     public LoginPage loginButtonHomePagePress(){
         driver.findElement(loginButtonHomePage).click();
         return new LoginPage(driver);
-    }
-    public boolean isPrivateAccountButtonDisplayed() {
-        return driver.findElement(privateAccountButton).isDisplayed();
     }
 
     public LoginPage privateAccountButtonPress(){
         driver.findElement(privateAccountButton).click();
         return new LoginPage(driver);
     }
+
     public void waitUntilLoginButtonHomePageVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginButtonHomePage));
     }
+
     public void waitUntilPrivateAccountButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(privateAccountButton));

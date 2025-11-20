@@ -1,5 +1,3 @@
-import org.hamcrest.Matchers;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import pages.HomePage;
@@ -7,13 +5,10 @@ import pages.LoginPage;
 import pages.RegistrationPage;
 
 import static constants.Constants.*;
-import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
 public class RegistrationTest extends BaseTest {
 
     @Test
-
     public void registrationSuccess(){
         HomePage objHomePage = new HomePage(driver);
         LoginPage objLoginPage;
@@ -26,14 +21,15 @@ public class RegistrationTest extends BaseTest {
         objLoginPage.waitUntilRegistrationButtonVisible();
         objRegistrationPage = objLoginPage.registrationButtonPress();
         Assert.assertTrue("Переход на страницу Регистрации не совершен", objRegistrationPage.isRegistrationPageHeaderDisplayed());
-        objRegistrationPage.fillRegistrationForm(EMAIL, PASSWORD, NAME);
+
+        objRegistrationPage.fillRegistrationForm(NAME, PASSWORD, EMAIL);
         objRegistrationPage.waitUntilRegistrationButtonVisible();
         objLoginPage = objRegistrationPage.registrationOnRegistrationButtonPress();
+        objLoginPage.waitUntilLoginPageHeaderVisible();
         Assert.assertTrue("Переход на страницу Входа не совершен", objLoginPage.isLoginPageHeaderDisplayed());
     }
 
     @Test
-
     public void registrationPasswordWarning(){
         HomePage objHomePage = new HomePage(driver);
         LoginPage objLoginPage;
@@ -46,7 +42,7 @@ public class RegistrationTest extends BaseTest {
         objLoginPage.waitUntilRegistrationButtonVisible();
         objRegistrationPage = objLoginPage.registrationButtonPress();
         Assert.assertTrue("Переход на страницу Регистрации не совершен", objRegistrationPage.isRegistrationPageHeaderDisplayed());
-        objRegistrationPage.fillRegistrationForm(EMAIL, INVALIDPASSWORD, NAME);
+        objRegistrationPage.fillRegistrationForm(NAME, INVALID_PASSWORD, EMAIL);
         objRegistrationPage.waitUntilRegistrationButtonVisible();
         objRegistrationPage.registrationOnRegistrationButtonPress();
         Assert.assertTrue("Сообщение о невалидном пароле не появилось", objRegistrationPage.isInvalidPasswordWarningDisplayed());

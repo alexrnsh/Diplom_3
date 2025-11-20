@@ -19,10 +19,12 @@ public class RecoverPasswordPage {
     public boolean loginButtonOnRecoverPasswordPageDisplayed(){
         return driver.findElement(loginButtonOnRecoverPasswordPage).isDisplayed();
     }
+
     public void waitUntilLoginButtonOnRecoveryPageVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginButtonOnRecoverPasswordPage));
     }
+
     public LoginPage loginButtonOnRecoverPasswordPagePress() {
         driver.findElement(loginButtonOnRecoverPasswordPage).click();
         return new LoginPage(driver);

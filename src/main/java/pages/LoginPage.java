@@ -10,6 +10,7 @@ import java.time.Duration;
 public class LoginPage {
 
     private final WebDriver driver;
+
     private final By registrationButton = By.xpath("//a[text()='Зарегистрироваться']");
     private final By emailInput = By.xpath("//input[@name='name']");
     private final By passwordInput = By.xpath("//input[@name='Пароль']");
@@ -20,18 +21,21 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
-    public boolean isRegistrationButtonDisplayed() {
-        return driver.findElement(registrationButton).isDisplayed();
-    }
 
     public boolean isLoginPageHeaderDisplayed(){
         return driver.findElement(loginPageHeader).isDisplayed();
+    }
+
+    public void waitUntilLoginPageHeaderVisible() {
+        new WebDriverWait(driver, Duration.ofSeconds(20)).
+                until(ExpectedConditions.visibilityOfElementLocated(loginPageHeader));
     }
 
     public void waitUntilRegistrationButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
     }
+
     public RegistrationPage registrationButtonPress(){
         driver.findElement(registrationButton).click();
         return new RegistrationPage(driver);
@@ -43,21 +47,21 @@ public class LoginPage {
         driver.findElement(passwordInput).clear();
         driver.findElement(passwordInput).sendKeys(password);
     }
+
     public HomePage loginButtonOnLoginPagePress(){
         driver.findElement(loginButtonOnLoginPage).click();
         return new HomePage(driver);
 
     }
+
     public RecoverPasswordPage recoverPasswordButtonPress(){
         driver.findElement(recoverPasswordButton).click();
         return new RecoverPasswordPage(driver);
     }
+
     public void waitUntilRecoverPasswordButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(recoverPasswordButton));
     }
 
-    public boolean recoverPasswordButtonDisplayed() {
-        return driver.findElement(recoverPasswordButton).isDisplayed();
-    }
 }

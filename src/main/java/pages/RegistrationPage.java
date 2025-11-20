@@ -8,12 +8,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class RegistrationPage {
+
     private final WebDriver driver;
+
     private final By nameInput = By.xpath("//input[@name='name']");
-    private final By emailInput = By.xpath("//input[@name='name']");
+    private final By emailInput = By.xpath("//label[text()='Email']/following-sibling::input");
     private final By passwordInput = By.xpath("//input[@name='Пароль']");
     private final By loginOnRegistrationPageButton = By.xpath("//a[@href='/login' and text()='Войти']");
-    private final By registrationButton = By.xpath("//a[text()='Зарегистрироваться']");
+    private final By registrationButton = By.xpath("//button[text()='Зарегистрироваться']");
     private final By registrationPageHeader = By.xpath("//h2[text()='Регистрация']");
     private final By invalidPasswordWarning = By.xpath("//p[text()='Некорректный пароль']");
 
@@ -21,7 +23,7 @@ public class RegistrationPage {
         this.driver = driver;
     }
 
-    public void fillRegistrationForm(String name, String email, String password) {
+    public void fillRegistrationForm(String name, String password, String email) {
         driver.findElement(nameInput).clear();
         driver.findElement(nameInput).sendKeys(name);
         driver.findElement(emailInput).clear();
@@ -34,14 +36,17 @@ public class RegistrationPage {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
     }
+
     public LoginPage registrationOnRegistrationButtonPress() {
         driver.findElement(registrationButton).click();
         return new LoginPage(driver);
     }
+
     public LoginPage loginOnRegistrationPageButtonPress(){
         driver.findElement(loginOnRegistrationPageButton).click();
         return new LoginPage(driver);
     }
+
     public void waitUntilLoginButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginOnRegistrationPageButton));
@@ -50,6 +55,7 @@ public class RegistrationPage {
     public boolean isRegistrationPageHeaderDisplayed(){
         return driver.findElement(registrationPageHeader).isDisplayed();
     }
+
     public boolean isInvalidPasswordWarningDisplayed(){
         return driver.findElement(invalidPasswordWarning).isDisplayed();
     }
