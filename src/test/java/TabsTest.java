@@ -13,7 +13,6 @@ public class TabsTest extends BaseTest{
         @Test
         public void checkTabsSwitching() {
 
-
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
             WebElement sauces = driver.findElement(By.xpath("//span[text()='Соусы']"));
