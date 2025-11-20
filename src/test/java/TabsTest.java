@@ -28,22 +28,6 @@ public class TabsTest extends BaseTest{
             fillings.click();
             wait.until(ExpectedConditions.textToBePresentInElement(fillings, "Начинки"));
 
-            /* WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-// --- Соусы ---
-            WebElement saucesTab = driver.findElement(By.xpath("//span[text()='Соусы']/parent::div"));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saucesTab);
-            wait.until(ExpectedConditions.textToBePresentInElement(saucesTab, "Соусы"));
-
-// --- Булки ---
-            WebElement bunsTab = driver.findElement(By.xpath("//span[text()='Булки']/parent::div"));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", bunsTab);
-            wait.until(ExpectedConditions.textToBePresentInElement(bunsTab, "Булки"));
-
-// --- Начинки ---
-            WebElement fillingsTab = driver.findElement(By.xpath("//span[text()='Начинки']/parent::div"));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fillingsTab);
-            wait.until(ExpectedConditions.textToBePresentInElement(fillingsTab, "Начинки"));*/
         }
 
     }

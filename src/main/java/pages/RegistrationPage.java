@@ -37,7 +37,7 @@ public class RegistrationPage {
                 until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
     }
 
-    public LoginPage registrationOnRegistrationButtonPress() {
+    public LoginPage registrationButtonOnRegistrationPagePress() {
         driver.findElement(registrationButton).click();
         return new LoginPage(driver);
     }
