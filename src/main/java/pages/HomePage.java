@@ -28,6 +28,10 @@ public class HomePage {
         driver.findElement(privateAccountButton).click();
         return new LoginPage(driver);
     }
+    public PrivateAccountPage privateAccountButtonPressWhenLoggedIn(){
+        driver.findElement(privateAccountButton).click();
+        return new PrivateAccountPage(driver);
+    }
 
     public void waitUntilLoginButtonHomePageVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).

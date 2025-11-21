@@ -1,3 +1,5 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import model.UserModel;
@@ -6,6 +8,8 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.RecoverPasswordPage;
@@ -17,12 +21,26 @@ import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.hamcrest.CoreMatchers.equalTo;
 
+@RunWith(Parameterized.class)
 public class LoginTest extends BaseTest {
     
     private final static String USER_CREATION_API = "/api/auth/register";
     private final static String USER_DELETION_API ="/api/auth/user";
 
     static String userToken;
+
+    @Parameterized.Parameters(name = "Browser: {0}")
+    public static Object[][] browsers() {
+        return new Object[][] {
+                { DriverType.YANDEX },
+                { DriverType.CHROME }
+
+        };
+    }
+
+    public LoginTest(DriverType driverType) {
+        this.driverType = driverType;
+    }
 
     @BeforeClass
     public static void userRegistration(){
@@ -42,6 +60,8 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Логин через кнопку Личный кабинет")
+    @Description("Переходит на страницу Личного кабинета, находит кнопку Войти и осуществляет успешный вход")
     public void testLoginWithPrivateAccountButton(){
         HomePage objHomePage = new HomePage(driver);
 
@@ -53,6 +73,8 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Логин через кнопку Войти в аккаунт на стартовой странице")
+    @Description("Переходит на страницу входа через кнопку Войти в аккаунт и осуществляет успешный вход")
     public void testLoginWithLoginButtonOnHomePage(){
         HomePage objHomePage = new HomePage(driver);
         LoginPage objLoginPage = getLoginPageWithLoginButton(objHomePage);
@@ -63,6 +85,8 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Логин через кнопку Войти на странице регистрации")
+    @Description("Переходит на страницу регистрации, находит кнопку Войти и осуществляет успешный вход")
     public void testLoginWithLoginButtonOnRegistrationPage(){
 
         HomePage objHomePage = new HomePage(driver);
@@ -84,6 +108,8 @@ public class LoginTest extends BaseTest {
     }
     
     @Test
+    @DisplayName("Логин через кнопку Войти на странице восстановления пароля")
+    @Description("Переходит на страницу восстановления пароля, находит кнопку Войти и осуществляет успешный вход")
     public void testLoginWithLoginButtonOnPasswordRecoveryPage(){
         HomePage objHomePage = new HomePage(driver);
 

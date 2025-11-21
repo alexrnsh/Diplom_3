@@ -4,38 +4,46 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static constants.Constants.*;
 
 public class BaseTest {
 
-    WebDriver driver;
+    protected WebDriver driver;
+    protected DriverType driverType;
 
     @Before
     public void setUp() {
-        // TODO do this also for yandex browser
-        driver = getDriver(DriverType.CHROME);
+        driver = getDriver(driverType);
         driver.get(PAGE_URL);
     }
 
     @After
-    public void teardown() {
-        driver.quit();
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     private WebDriver getDriver(DriverType driverType) {
+        switch (driverType) {
+            case YANDEX:
+                /*System.setProperty("webdriver.chrome.driver",
+                        "src/test/resources/yandexdriver.exe");
+                ChromeOptions options = new ChromeOptions();
+                options.setBinary("C:/Users/alexa/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
 
-        if (driverType == DriverType.FIREFOX) {
-            WebDriverManager.firefoxdriver().setup();
-            return new FirefoxDriver();
+                return new ChromeDriver(options);*/
+            case CHROME:
+            default:
+                WebDriverManager.chromedriver().setup();
+                return new ChromeDriver();
         }
-        WebDriverManager.chromedriver().setup();
-        return new ChromeDriver();
-
     }
 
-    enum DriverType {
-        CHROME, FIREFOX
+    public enum DriverType {
+        CHROME, YANDEX
     }
 }
