@@ -29,13 +29,13 @@ public class BaseTest {
 
     private WebDriver getDriver(DriverType driverType) {
         switch (driverType) {
-            case YANDEX:
-                /*System.setProperty("webdriver.chrome.driver",
-                        "src/test/resources/yandexdriver.exe");
-                ChromeOptions options = new ChromeOptions();
-                options.setBinary("C:/Users/alexa/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
 
-                return new ChromeDriver(options);*/
+            case YANDEX:
+                System.setProperty("webdriver.chrome.driver",
+                        "src/test/resources/chromedriver.exe"); // chromedriver 138
+                ChromeOptions yandexOptions = new ChromeOptions();
+                yandexOptions.setBinary("C:/Users/alexa/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
+                return new ChromeDriver(yandexOptions);
             case CHROME:
             default:
                 WebDriverManager.chromedriver().setup();

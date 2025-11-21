@@ -1,4 +1,5 @@
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
@@ -145,18 +146,18 @@ public class LoginTest extends BaseTest {
                     .body("message", Matchers.equalTo("User successfully removed"));
         }
     }
-
+    @Step("Заполнение формы для логина")
     private static void fillAndSendLoginForm(LoginPage objLoginPage) {
         objLoginPage.fillLoginForm(EMAIL, PASSWORD);
         HomePage objHomePage = objLoginPage.loginButtonOnLoginPagePress();
         objHomePage.waitUntilCreateOrderButtonVisible();
     }
-
+    @Step("Переход на форму входа через кнопку Личный кабинет")
     private static LoginPage getLoginPageWithPrivateAccountButton(HomePage objHomePage) {
         objHomePage.waitUntilPrivateAccountButtonVisible();
         return objHomePage.privateAccountButtonPress();
     }
-
+    @Step("Переход на форму входа через кнопку Войти в аккаунт")
     private static LoginPage getLoginPageWithLoginButton(HomePage objHomePage) {
         objHomePage.waitUntilLoginButtonHomePageVisible();
         return objHomePage.loginButtonHomePagePress();
