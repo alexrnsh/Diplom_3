@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class HomePage {
 
@@ -39,11 +40,6 @@ public class HomePage {
         driver.findElement(privateAccountButton).click();
         return new LoginPage(driver);
     }
-    @Step ("Нажатие на кнопку Личный кабинет после совершенного логина")
-    public PrivateAccountPage privateAccountButtonPressWhenLoggedIn(){
-        driver.findElement(privateAccountButton).click();
-        return new PrivateAccountPage(driver);
-    }
 
     @Step ("Ожидание появления кнопки Войти в аккаунт")
     public void waitUntilLoginButtonHomePageVisible() {
@@ -61,6 +57,7 @@ public class HomePage {
     public boolean isCreateOrderButtonDisplayed(){
         return driver.findElement(createOrderButton).isDisplayed();
     }
+
     @Step ("Ожидание появления кнопки Создать заказ")
     public void waitUntilCreateOrderButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
@@ -70,34 +67,40 @@ public class HomePage {
     @Step("Нажатие на вкладку Соусы")
     public void clickSauceTab() {
         WebElement tab = driver.findElement(SAUCE_TAB);
-        if (!tab.getAttribute("class").contains(ACTIVE_CLASS)) {
+        if (!Objects.requireNonNull(tab.getAttribute("class")).contains(ACTIVE_CLASS)) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", tab);
         }
     }
+
     @Step("Нажатие на вкладку Булки")
     public void clickBunsTab() {
         WebElement tab = driver.findElement(BUNS_TAB);
-        if (!tab.getAttribute("class").contains(ACTIVE_CLASS)) {
+        if (!Objects.requireNonNull(tab.getAttribute("class")).contains(ACTIVE_CLASS)) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", tab);
         }
     }
+
     @Step("Нажатие на вкладку Начинки")
     public void clickFillingsTab() {
         WebElement tab = driver.findElement(FILLINGS_TAB);
-        if (!driver.findElement(FILLINGS_TAB).getAttribute("class").contains(ACTIVE_CLASS)) {
+        if (!Objects.requireNonNull(driver.findElement(FILLINGS_TAB).getAttribute("class")).contains(ACTIVE_CLASS)) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", tab);
         }
     }
+
     @Step("Вкладка Соусы активна true/false")
     public boolean isSauceTabActive() {
-        return driver.findElement(SAUCE_TAB).getAttribute("class").contains(ACTIVE_CLASS);
+        return Objects.requireNonNull(driver.findElement(SAUCE_TAB).getAttribute("class")).contains(ACTIVE_CLASS);
     }
+
     @Step("Вкладка Булки активна true/false")
     public boolean isBunsTabActive() {
-        return driver.findElement(BUNS_TAB).getAttribute("class").contains(ACTIVE_CLASS);
+        return Objects.requireNonNull(driver.findElement(BUNS_TAB).getAttribute("class")).contains(ACTIVE_CLASS);
     }
+
     @Step("Вкладка Начинки активна true/false")
     public boolean isFillingsTabActive() {
-        return driver.findElement(FILLINGS_TAB).getAttribute("class").contains(ACTIVE_CLASS);
+        return Objects.requireNonNull(driver.findElement(FILLINGS_TAB).getAttribute("class")).contains(ACTIVE_CLASS);
     }
+
 }

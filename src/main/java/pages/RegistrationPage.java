@@ -34,30 +34,35 @@ public class RegistrationPage {
         driver.findElement(passwordInput).clear();
         driver.findElement(passwordInput).sendKeys(password);
     }
+
     @Step("Ожидание появления кнопки Зарегистрироваться на странице регистрации")
     public void waitUntilRegistrationButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
     }
+
     @Step("Нажатие на кнопку Зарегистрироваться на странице регистрации")
-    public LoginPage registrationButtonOnRegistrationPagePress() {
+    public void registrationButtonOnRegistrationPagePress() {
         driver.findElement(registrationButton).click();
-        return new LoginPage(driver);
     }
+
     @Step("Нажатие на кнопку Войти на странице регистрации")
     public LoginPage loginOnRegistrationPageButtonPress(){
         driver.findElement(loginOnRegistrationPageButton).click();
         return new LoginPage(driver);
     }
+
     @Step("Ожидание появления кнопки Войти на странице регистрации")
     public void waitUntilLoginButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginOnRegistrationPageButton));
     }
+
     @Step("Ожидание появления заголовка Регистрация страницы регистрации")
     public boolean isRegistrationPageHeaderDisplayed(){
         return driver.findElement(registrationPageHeader).isDisplayed();
     }
+
     @Step("Сообщение о некорректном пароле отображается в форме регистрации (true/false)")
     public boolean isInvalidPasswordWarningDisplayed(){
         return driver.findElement(invalidPasswordWarning).isDisplayed();

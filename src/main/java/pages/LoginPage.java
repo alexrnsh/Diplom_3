@@ -28,16 +28,12 @@ public class LoginPage {
         return driver.findElement(loginPageHeader).isDisplayed();
     }
 
-    @Step("Ожидание появления заголовка ВХОД на странице логина")
-    public void waitUntilLoginPageHeaderVisible() {
-        new WebDriverWait(driver, Duration.ofSeconds(20)).
-                until(ExpectedConditions.visibilityOfElementLocated(loginPageHeader));
-    }
     @Step("Ожидание появления кнопки Зарегистрироваться на странице логина")
     public void waitUntilRegistrationButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(registrationButton));
     }
+
     @Step("Нажатие на кнопку Зарегистрироваться на странице логина")
     public RegistrationPage registrationButtonPress(){
         driver.findElement(registrationButton).click();
@@ -51,17 +47,20 @@ public class LoginPage {
         driver.findElement(passwordInput).clear();
         driver.findElement(passwordInput).sendKeys(password);
     }
+
     @Step("Нажатие на кнопку Войти на странице логина")
     public HomePage loginButtonOnLoginPagePress(){
         driver.findElement(loginButtonOnLoginPage).click();
         return new HomePage(driver);
 
     }
+
     @Step("Нажатие на кнопку Восстановить пароль на странице логина")
     public RecoverPasswordPage recoverPasswordButtonPress(){
         driver.findElement(recoverPasswordButton).click();
         return new RecoverPasswordPage(driver);
     }
+
     @Step("Ожидание появления кнопки Восстановить пароль на странице логина")
     public void waitUntilRecoverPasswordButtonVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).

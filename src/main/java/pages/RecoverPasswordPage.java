@@ -21,11 +21,13 @@ public class RecoverPasswordPage {
     public boolean loginButtonOnRecoverPasswordPageDisplayed(){
         return driver.findElement(loginButtonOnRecoverPasswordPage).isDisplayed();
     }
+
     @Step("Ожидание появления кнопки Войти на странице Восстановить пароль")
     public void waitUntilLoginButtonOnRecoveryPageVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginButtonOnRecoverPasswordPage));
     }
+
     @Step("Нажатие на кнопку Войти на странице восстановления пароля")
     public LoginPage loginButtonOnRecoverPasswordPagePress() {
         driver.findElement(loginButtonOnRecoverPasswordPage).click();

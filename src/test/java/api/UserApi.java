@@ -8,7 +8,6 @@ import model.UserModel;
 import org.hamcrest.Matchers;
 
 import static constants.Constants.*;
-import static constants.Constants.NAME;
 import static io.restassured.RestAssured.given;
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
