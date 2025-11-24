@@ -7,15 +7,25 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import static constants.Constants.*;
 
 public class BaseTest {
 
     protected WebDriver driver;
-    protected DriverType driverType;
+    private Properties properties;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+        properties = new Properties();
+        properties.load(new FileInputStream("src/test/resources/config.properties"));
+
+        String browser = System.getProperty("browser", "CHROME");
+
+        DriverType driverType = DriverType.valueOf(browser.toUpperCase());
         driver = getDriver(driverType);
         driver.get(PAGE_URL);
     }
@@ -29,13 +39,14 @@ public class BaseTest {
 
     private WebDriver getDriver(DriverType driverType) {
         switch (driverType) {
-
             case YANDEX:
                 System.setProperty("webdriver.chrome.driver",
-                        "src/test/resources/chromedriver.exe"); // chromedriver 138
+                        "src/test/resources/chromedriver.exe");
+                String yandexPath = properties.getProperty("yandex.browser.path");
                 ChromeOptions yandexOptions = new ChromeOptions();
-                yandexOptions.setBinary("C:/Users/alexa/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
+                yandexOptions.setBinary(yandexPath);
                 return new ChromeDriver(yandexOptions);
+
             case CHROME:
             default:
                 WebDriverManager.chromedriver().setup();

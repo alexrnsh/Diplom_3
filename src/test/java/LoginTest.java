@@ -2,12 +2,7 @@ import api.UserApi;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.*;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.RecoverPasswordPage;
@@ -15,26 +10,14 @@ import pages.RegistrationPage;
 
 import static constants.Constants.*;
 
-@RunWith(Parameterized.class)
+
 public class LoginTest extends BaseTest {
 
-    @Parameterized.Parameters(name = "Browser: {0}")
-    public static Object[][] browsers() {
-        return new Object[][] {
-                { DriverType.YANDEX },
-                { DriverType.CHROME }
+    private static String userToken;
 
-        };
-    }
-
-    public LoginTest(DriverType driverType) {
-        this.driverType = driverType;
-    }
-
-    @BeforeClass
-
-    public static void testSetup(){
-        UserApi.userRegistration();
+    @Before
+    public void testSetup(){
+        userToken = UserApi.userRegistration();
     }
 
     @Test
@@ -84,7 +67,7 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue("Вход в аккаунт не совершен", objHomePage.isCreateOrderButtonDisplayed());
 
     }
-    
+
     @Test
     @DisplayName("Логин через кнопку Войти на странице восстановления пароля")
     @Description("Переходит на страницу восстановления пароля, находит кнопку Войти и осуществляет успешный вход")
@@ -108,10 +91,9 @@ public class LoginTest extends BaseTest {
 
     }
 
-    @AfterClass
-
-    public static void testCleanup(){
-        UserApi.createdUserDataDeletion();
+    @After
+    public void testCleanup(){
+        UserApi.userDeletion(userToken);
     }
 
     @Step("Заполнение формы для логина")
@@ -120,11 +102,13 @@ public class LoginTest extends BaseTest {
         HomePage objHomePage = objLoginPage.loginButtonOnLoginPagePress();
         objHomePage.waitUntilCreateOrderButtonVisible();
     }
+
     @Step("Переход на форму входа через кнопку Личный кабинет")
     private static LoginPage getLoginPageWithPrivateAccountButton(HomePage objHomePage) {
         objHomePage.waitUntilPrivateAccountButtonVisible();
         return objHomePage.privateAccountButtonPress();
     }
+
     @Step("Переход на форму входа через кнопку Войти в аккаунт")
     private static LoginPage getLoginPageWithLoginButton(HomePage objHomePage) {
         objHomePage.waitUntilLoginButtonHomePageVisible();

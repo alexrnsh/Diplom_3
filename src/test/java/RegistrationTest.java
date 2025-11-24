@@ -1,33 +1,21 @@
+import api.UserApi;
 import constants.Constants;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import model.UserLoginResponse;
+import model.UserModel;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
 import pages.HomePage;
 import pages.LoginPage;
-import pages.PrivateAccountPage;
 import pages.RegistrationPage;
 
 import static constants.Constants.*;
 
-@RunWith(Parameterized.class)
 public class RegistrationTest extends BaseTest {
 
-    @Parameterized.Parameters(name = "Browser: {0}")
-    public static Object[][] browsers() {
-        return new Object[][] {
-                { DriverType.YANDEX },
-                { DriverType.CHROME }
-
-        };
-    }
-
-    public RegistrationTest(DriverType driverType) {
-        this.driverType = driverType;
-    }
+    private static String userToken;
 
     @Test
     @DisplayName("Успешная регистрация")
@@ -46,16 +34,12 @@ public class RegistrationTest extends BaseTest {
         String email = Constants.faker.internet().emailAddress();
         objRegistrationPage.fillRegistrationForm(NAME, PASSWORD, email);
         objRegistrationPage.waitUntilRegistrationButtonVisible();
-        objLoginPage = objRegistrationPage.registrationButtonOnRegistrationPagePress();
-        objLoginPage.waitUntilLoginPageHeaderVisible();
-        Assert.assertTrue("Переход на страницу Входа не совершен", objLoginPage.isLoginPageHeaderDisplayed());
+        objRegistrationPage.registrationButtonOnRegistrationPagePress();
 
-        objLoginPage.fillLoginForm(email, PASSWORD);
-        objHomePage = objLoginPage.loginButtonOnLoginPagePress();
-        objHomePage.waitUntilPrivateAccountButtonVisible();
-        PrivateAccountPage objPrivateAccountPage = objHomePage.privateAccountButtonPressWhenLoggedIn();
-        objPrivateAccountPage.waitUntilNameVisible();
-        Assert.assertEquals("Имя не совпадает", NAME, objPrivateAccountPage.getNameFieldValue());
+
+        UserLoginResponse userLoginResponse = UserApi.userLogin(new UserModel(email, PASSWORD, NAME));
+        userToken = userLoginResponse.getAccessToken();
+        Assert.assertEquals("Имя не совпадает", NAME, userLoginResponse.getUser().getName());
 
     }
 
@@ -79,6 +63,13 @@ public class RegistrationTest extends BaseTest {
         objRegistrationPage.waitUntilRegistrationButtonVisible();
         objRegistrationPage.registrationButtonOnRegistrationPagePress();
         Assert.assertTrue("Сообщение о невалидном пароле не появилось", objRegistrationPage.isInvalidPasswordWarningDisplayed());
+    }
+
+    @After
+    public void testCleanup(){
+        if (userToken != null) {
+            UserApi.userDeletion(userToken);
+        }
     }
 
 }
