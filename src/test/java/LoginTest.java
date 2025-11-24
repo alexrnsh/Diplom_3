@@ -1,10 +1,7 @@
+import api.UserApi;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.response.ValidatableResponse;
-import model.UserModel;
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -17,18 +14,9 @@ import pages.RecoverPasswordPage;
 import pages.RegistrationPage;
 
 import static constants.Constants.*;
-import static io.restassured.RestAssured.given;
-import static org.apache.hc.core5.http.HttpStatus.SC_OK;
-import static org.apache.http.HttpStatus.SC_ACCEPTED;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class LoginTest extends BaseTest {
-    
-    private final static String USER_CREATION_API = "/api/auth/register";
-    private final static String USER_DELETION_API ="/api/auth/user";
-
-    static String userToken;
 
     @Parameterized.Parameters(name = "Browser: {0}")
     public static Object[][] browsers() {
@@ -44,20 +32,9 @@ public class LoginTest extends BaseTest {
     }
 
     @BeforeClass
-    public static void userRegistration(){
-        RestAssured.baseURI = PAGE_URL;
-        UserModel user = new UserModel(EMAIL, PASSWORD, NAME);
-        ValidatableResponse response = given()
-                .log().all()
-                .header("Content-type", "application/json")
-                .body(user)
-                .post(USER_CREATION_API)
-                .then()
-                .log().all()
-                .statusCode(SC_OK)
-                .body("success", equalTo(true));
 
-        userToken = response.extract().path("accessToken");
+    public static void testSetup(){
+        UserApi.userRegistration();
     }
 
     @Test
@@ -132,20 +109,11 @@ public class LoginTest extends BaseTest {
     }
 
     @AfterClass
-    public static void createdUserDataDeletion(){
-        if (userToken != null) {
-            given()
-                    .log().all()
-                    .header("Authorization", userToken) // Добавляем токен в заголовок
-                    .when()
-                    .delete(USER_DELETION_API)  // Путь запроса на удаление пользователя
-                    .then()
-                    .log().all()
-                    .statusCode(SC_ACCEPTED)
-                    .body("success", Matchers.equalTo(true))  // Ожидаем, что success будет true
-                    .body("message", Matchers.equalTo("User successfully removed"));
-        }
+
+    public static void testCleanup(){
+        UserApi.createdUserDataDeletion();
     }
+
     @Step("Заполнение формы для логина")
     private static void fillAndSendLoginForm(LoginPage objLoginPage) {
         objLoginPage.fillLoginForm(EMAIL, PASSWORD);

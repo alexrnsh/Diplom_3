@@ -16,8 +16,6 @@ import static constants.Constants.*;
 @RunWith(Parameterized.class)
 public class RegistrationTest extends BaseTest {
 
-    public static final By nameInTheNameField = By.xpath("//input[@name='Name']");
-
     @Parameterized.Parameters(name = "Browser: {0}")
     public static Object[][] browsers() {
         return new Object[][] {
@@ -57,8 +55,7 @@ public class RegistrationTest extends BaseTest {
         objHomePage.waitUntilPrivateAccountButtonVisible();
         PrivateAccountPage objPrivateAccountPage = objHomePage.privateAccountButtonPressWhenLoggedIn();
         objPrivateAccountPage.waitUntilNameVisible();
-        String actualName = driver.findElement(nameInTheNameField).getAttribute("value");
-        Assert.assertEquals("Имя не совпадает", NAME, actualName);
+        Assert.assertEquals("Имя не совпадает", NAME, objPrivateAccountPage.getNameFieldValue());
 
     }
 

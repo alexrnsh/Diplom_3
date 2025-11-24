@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,15 +17,16 @@ public class RecoverPasswordPage {
         this.driver = driver;
     }
 
+    @Step("Кнопка Войти отображается на странице Восстановления пароля (true/false)")
     public boolean loginButtonOnRecoverPasswordPageDisplayed(){
         return driver.findElement(loginButtonOnRecoverPasswordPage).isDisplayed();
     }
-
+    @Step("Ожидание появления кнопки Войти на странице Восстановить пароль")
     public void waitUntilLoginButtonOnRecoveryPageVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(20)).
                 until(ExpectedConditions.visibilityOfElementLocated(loginButtonOnRecoverPasswordPage));
     }
-
+    @Step("Нажатие на кнопку Войти на странице восстановления пароля")
     public LoginPage loginButtonOnRecoverPasswordPagePress() {
         driver.findElement(loginButtonOnRecoverPasswordPage).click();
         return new LoginPage(driver);
